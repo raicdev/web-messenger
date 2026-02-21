@@ -1,31 +1,44 @@
-# shadcn/ui monorepo template
+# E2E Web Messenger (MVP+)
 
-This template is for creating a monorepo with shadcn/ui.
+Monorepo structure:
 
-## Usage
+- `apps/web`: Next.js (App Router) + tRPC client + IndexedDB
+- `apps/api`: Hono + tRPC server + Drizzle (PostgreSQL/Neon)
+- `packages/shared`: zod schemas / shared types
+- `packages/db`: Drizzle schema + migration SQL
+- `packages/ui`: shadcn/ui shared components
+
+## Environment
+
+Create `.env` at repository root:
 
 ```bash
-bunx shadcn@latest init
+DATABASE_URL=postgresql://<user>:<password>@<host>/<db>?sslmode=require
+NEXT_PUBLIC_API_URL=http://localhost:3001
 ```
 
-## Adding components
-
-To add components to your app, run the following command at the root of your `web` app:
+## Run
 
 ```bash
-bunx shadcn@latest add button -c apps/web
+bun install
+bun run dev
 ```
 
-This will place the ui components in the `packages/ui/src/components` directory.
+- Web: `http://localhost:3000`
+- API: `http://localhost:3001`
 
-## Tailwind
+## Database migration (Drizzle)
 
-Your `tailwind.config.ts` and `globals.css` are already set up to use the components from the `ui` package.
-
-## Using components
-
-To use the components in your app, import them from the `ui` package.
-
-```tsx
-import { Button } from "@workspace/ui/components/button";
+```bash
+bun run --filter @workspace/db db:generate
+bun run --filter @workspace/db db:migrate
 ```
+
+## Implemented security model
+
+- 1:1 message encryption: Signal protocol library (`@privacyresearch/libsignal-protocol-typescript`) with PreKey session bootstrap + Double Ratchet session messages.
+- Group encryption: Sender Key equivalent (per-sender symmetric key, distributed to members over encrypted 1:1 channel).
+- Safety UX: identity key mismatch warning + safety number display.
+- API stores ciphertext only (`message_queue`, `group_message_queue`).
+- Stateless request authentication (nonce + signature verification + replay prevention).
+- Client key/session persistence in IndexedDB (with recovery string export/import).

@@ -1,0 +1,34 @@
+{
+  "name": "@workspace/api",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./router": "./src/router.ts"
+  },
+  "scripts": {
+    "dev": "bun src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "lint": "oxlint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.19.6",
+    "@hono/trpc-server": "^0.4.0",
+    "@neondatabase/serverless": "^1.0.2",
+    "@trpc/server": "^11.7.1",
+    "@workspace/db": "workspace:*",
+    "@workspace/shared": "workspace:*",
+    "drizzle-orm": "^0.44.5",
+    "hono": "^4.10.3",
+    "tweetnacl": "^1.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^25.1.0",
+    "@workspace/typescript-config": "workspace:*",
+    "oxlint": "^1.14.0",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.3"
+  }
+}

@@ -13,11 +13,16 @@
     "format": "oxfmt --write ."
   },
   "devDependencies": {
-    "@workspace/typescript-config": "workspace:*",
+    "@workspace/typescript-config": "*",
     "oxfmt": "^0.33.0",
     "oxlint": "^1.14.0",
     "turbo": "^2.8.1",
     "typescript": "5.9.3"
+  },
+  "overrides": {
+    "@types/react": "^19.2.10",
+    "@types/react-dom": "^19.2.3",
+    "csstype": "^3.2.3"
   },
   "engines": {
     "node": ">=20"

@@ -30,7 +30,11 @@ dist
 
 # Debug
 npm-debug.log*
+package-lock.json
 
 # Misc
 .DS_Store
 *.pem
+.agents/
+.claude/
+image.png
